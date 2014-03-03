@@ -1,12 +1,22 @@
 Projects for Trello
 ===========
+
 [Projects for Trello](https://chrome.google.com/webstore/detail/projects-for-trello/mholjhodapabhdbchonjjoecmfhobfoa) 
 adds functionality to the awesome trello.com for use in multiple project boards.
+
+
+Note
+----
+May ultimately add support for coloring tags based on the tag assigned, but currently
+it just assigns a background color based on your choices specified in the tags list.
+Make sure to reload the extension to see your changes take place.
+
 
 Setup
 -----
 Projects for Trello is a Chrome extension and you can install it via the Chrome Webstore or clone this 
 repository and load the Projects for Trello folder as an unpacked extension.
+
 
 How does it work?
 -----------------
@@ -18,6 +28,7 @@ Project names are written in between parentheses in the title of a card.
 For example: {Project} Upon an error I want to see an awesome 404 page.
 Upon saving the card, Projects for Trello picks up the assigned project name and shows it
 as a badge in the lower left corner of the card. Projects for Trello also supports multiple labels per card.
+
 
 Credits
 -------

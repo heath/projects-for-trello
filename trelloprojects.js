@@ -67,6 +67,11 @@ function ListCard(el) {
     var $card = $(el);
     var to;
     var to2;
+    var tags = {
+        "foo" : "orange",
+        "bar" : "yellow",
+        "baz" : "purple"
+    }
 
     this.refresh = function() {
         if (busy)
@@ -89,6 +94,14 @@ function ListCard(el) {
                 ptitle = title;
                 parsed = title.match(regexp);
                 label = parsed ? parsed : -1;
+                for (key in tags) {
+                    var re = new RegExp(key);
+                    if (title.match(re)) {
+                        var val = tags[key];
+                        $(el).css("background", val);
+                    }
+                  }
+
             }
 
             clearTimeout(to2);
