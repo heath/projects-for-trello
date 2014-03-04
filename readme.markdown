@@ -7,9 +7,9 @@ adds functionality to the awesome trello.com for use in multiple project boards.
 
 Note
 ----
-May ultimately add support for coloring tags based on the tag assigned, but currently
-it just assigns a background color based on your choices specified in the tags list.
-Make sure to reload the extension to see your changes take place.
+This forked plugin will color tags based on the tag assigned. To use, change the
+tags list in the trelloprojects.js, and edit the corresponding css file. Make
+sure to reload the extension to see your changes take place.
 
 
 Setup
