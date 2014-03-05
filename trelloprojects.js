@@ -1,3 +1,5 @@
+var tags = [ "foo", "bar", "baz" ];
+
 $(function() {
   $('.js-toggle-label-filter, .js-select-member, .js-due-filter, .js-clear-all').live('mouseup', showLabels);
   $('.js-input').live('keyup', showLabels);
@@ -68,7 +70,6 @@ function ListCard(el) {
   var to;
   var to2;
   var tag;
-  var tags = [ "foo", "bar", "baz" ];
 
   this.refresh = function() {
     if (busy)
@@ -125,8 +126,53 @@ function ListCard(el) {
   });
 
   el.addEventListener('DOMNodeInserted', function(e) {
-    if (/card-short-id/.test(e.target.className) && !busy)
-      that.refresh();
+    if (/card-short-id/.test(e.target.className) && !busy) that.refresh();
+    if ($('.badge').length > 0)
+      $('.badge').hover(function handlerIn() {
+        $('.list-card-details').each(function(i1, cards) {
+          var badgeList = $(cards).find($('.badge'));
+          $(badgeList).each(function(i2, badge) {
+            var c;
+            var className;
+            var classes = $(badge)[0].classList;
+            $(classes).each(function(i3, className) {
+              tags.forEach(function(tag) {
+                if (tag === className) {
+                  if (className == event.target.innerText) {
+                    // We are dealing with the same tag as the one hovered over
+                  } else {
+                    // We are dealing with cards which don't have the same tag
+                    var otherCard = $($(badgeList)[i2])[0].parentNode.parentNode;
+                    $(otherCard).css({"opacity": 0.2, "background": "rgba(0,0,0,0.5)"});
+                  }
+                }
+              });
+            });
+          });
+        });
+      }, function handlerOut() {
+          $('.list-card-details').each(function(i1, cards) {
+          var badgeList = $(cards).find($('.badge'));
+          $(badgeList).each(function(i2, badge) {
+            var c;
+            var className;
+            var classes = $(badge)[0].classList;
+            $(classes).each(function(i3, className) {
+              tags.forEach(function(tag) {
+                if (tag === className) {
+                  if (className == event.target.innerText) {
+                    // We are dealing with the same tag as the one hovered over
+                  } else {
+                    // We are dealing with cards which don't have the same tag
+                    var otherCard = $($(badgeList)[i2])[0].parentNode.parentNode;
+                    $(otherCard).css({"opacity": 1.0, "background": "#fff"});
+                  }
+                }
+              });
+            });
+          });
+        });
+      });
   });
 
   setTimeout(that.refresh);

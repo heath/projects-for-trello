@@ -1,10 +1,10 @@
 .foo {
-	background-color    : green !important;
+	background-color    : blue !important;
 	background-position : 3px 3px !important;
 	background-repeat   : no-repeat !important;
 	border-bottom-color : #004b5f !important;
 	border-color        : #005b72 !important;
-	color               : #e1fafb !important;
+	color               : yellow !important;
 	float               : right;
 	font-size           : 11px;
 	line-height         : 16px;
@@ -18,7 +18,7 @@
 	background-repeat   : no-repeat !important;
 	border-bottom-color : #004b5f !important;
 	border-color        : #005b72 !important;
-	color               : #e1fafb !important;
+	color               : green !important;
 	float               : right;
 	font-size           : 11px;
 	line-height         : 16px;
@@ -32,7 +32,7 @@
 	background-repeat   : no-repeat !important;
 	border-bottom-color : #004b5f !important;
 	border-color        : #005b72 !important;
-	color               : #e1fafb !important;
+	color               : black !important;
 	float               : right;
 	font-size           : 11px;
 	line-height         : 16px;
