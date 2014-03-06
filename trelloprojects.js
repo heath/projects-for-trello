@@ -125,74 +125,19 @@ function ListCard(el) {
     return parsed ? label : '';
   });
 
-  function hasDesiredClass(classList, targetText) {
-    var classes = [];
-    for (var key in classList) {
-      var val = classList[key];
-      classes.push(val);
-    }
-    return classes.some(function(className) {
-      return className === targetText;
-    });
-  }
-  function hasATag(classList) {
-    var classes = [];
-    for (var key in classList) {
-      var val = classList[key];
-      classes.push(val);
-    }
-    return classes.some(function(className) {
-      return tags.some(function(tag) {
-        return tag === className;
-      });
-    });
-  }
-
-  function oneOfSiblingsHasDesiredClass (badgeList, desiredClass) {
-    return badgeList.filter("." + desiredClass).length > 0;
-  }
-
   el.addEventListener('DOMNodeInserted', function(e) {
     if (/card-short-id/.test(e.target.className) && !busy) that.refresh();
     if ($('.badge').length > 0)
       $('.badge').hover(function handlerIn() {
-        $('.list-card-details').each(function(i1, cards) {
-          var badgeList = $(cards).find($('.badge'));
-          $(badgeList).each(function(i2, badge) {
-            var c;
-            var className;
-            var classes = $(badge)[0].classList;
-            if (oneOfSiblingsHasDesiredClass(badgeList, event.target.innerText)) {
-            } else {
-              var otherCard = $($(badgeList)[i2])[0].parentNode.parentNode;
-              $(otherCard).css({"opacity": 0.2, "background": "rgba(0,0,0,0.5)"});
-            }
-          });
+        var allCards = $('.list-card-details');
+        allCards.css({"opacity": 0.2, "background": "rgba(0,0,0,0.5)"});
+        var visibleCards = allCards.filter(function(i, card) {
+          return $(card).find('.badge.' + event.target.innerText).length > 0;
         });
+        visibleCards.css({"opacity": 1.0, "background": "#fff"});
       }, function handlerOut() {
-          $('.list-card-details').each(function(i1, cards) {
-          var badgeList = $(cards).find($('.badge'));
-          $(badgeList).each(function(i2, badge) {
-            var c;
-            var className;
-            var classes = $(badge)[0].classList;
-            $(classes).each(function(i3, className) {
-              tags.forEach(function(tag) {
-                if (tag === className) {
-                  if (className == event.target.innerText) {
-                    // We are dealing with the same tag as the one hovered over
-                  } else {
-                    // We are dealing with cards which don't have the same tag
-                    var otherCard = $($(badgeList)[i2])[0].parentNode.parentNode;
-                    $(otherCard).css({"opacity": 1.0, "background": "#fff"});
-                  }
-                }
-              });
-            });
-          });
-        });
+        $('.list-card-details').css({"opacity": 1.0, "background": "#fff"});
       });
   });
-
   setTimeout(that.refresh);
 }
