@@ -6,21 +6,15 @@ $(function() {
   showLabels();
 });
 
-document.body.addEventListener('DOMNodeInserted', function(e) {
-  if (e.target.id == 'board')
-    setTimeout(showLabels);
-  else if ($(e.target).hasClass('list'))
+document.body.addEventListener('DOMNodeInserted', function() {
+  if (event.target.id == 'board' || $(event.target).hasClass('list'))
     showLabels();
 });
 
-var labelTimeout;
 function showLabels() {
-  clearTimeout(labelTimeout);
-  labelTimeout = setTimeout(function() {
-    $('.list').each(function() {
-      if (!this.list)
-        new List(this);
-    });
+  $('.list').each(function() {
+    if (!this.list)
+      new List(this);
   });
 }
 
@@ -31,8 +25,6 @@ function List(el) {
 
   var $list = $(el);
   var busy = false;
-  var to;
-  var to2;
 
   function readCard($c) {
     if ($c.target) {
@@ -44,7 +36,7 @@ function List(el) {
       if (!this.listCard)
         new ListCard(this);
       else
-        setTimeout(this.listCard.refresh);
+        this.listCard.refresh()
     });
   }
 
@@ -67,8 +59,6 @@ function ListCard(el) {
   var busy = false;
   var ptitle = '';
   var $card = $(el);
-  var to;
-  var to2;
   var tag;
 
   this.refresh = function() {
@@ -78,47 +68,41 @@ function ListCard(el) {
 
     $card.find(".project").remove();
 
-    clearTimeout(to);
-    to = setTimeout(function() {
-      var $title = $card.find('a.list-card-title');
-      if(!$title[0])
-        return;
+    var $title = $card.find('a.list-card-title');
+    if(!$title[0])
+      return;
 
-      var title = $title[0].childNodes[1].textContent;
-      if (title)
-        el._title = $title;
+    var title = $title[0].childNodes[1].textContent;
+    if (title)
+      el._title = $title;
 
-      if (title != ptitle) {
-        ptitle = title;
-        parsed = title.match(regexp);
+    if (title != ptitle) {
+      ptitle = title;
+      parsed = title.match(regexp);
+      label = parsed ? parsed : -1;
+    }
+
+
+    function recursiveReplace() {
+      if (label != -1) {
+        tags.forEach(function(text) {
+          if (text === label[1]) tag = text;
+        });
+        $('<div class="badge '+ tag + '" />').text(that.label[1]).prependTo($card.find('.badges'));
+        $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0],''));
+        parsed = el._title.match(regexp);
         label = parsed ? parsed : -1;
-      }
-
-      clearTimeout(to2);
-
-      to2 = setTimeout(function() {
-        function recursiveReplace() {
-          if (label != -1) {
-            tags.forEach(function(text) {
-              if (text === label[1]) tag = text;
-            });
-            $('<div class="badge '+ tag + '" />').text(that.label[1]).prependTo($card.find('.badges'));
-            $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0],''));
-            parsed = el._title.match(regexp);
-            label = parsed ? parsed : -1;
-            if (label != -1) {
-              el._title = $title;
-              recursiveReplace();
-            }
-          }
+        if (label != -1) {
+          el._title = $title;
+          recursiveReplace();
         }
-        recursiveReplace();
+      }
+    }
+    recursiveReplace();
 
-        var list = $card.closest('.list');
-        busy = false;
-      });
-    });
-  };
+    var list = $card.closest('.list');
+    busy = false;
+  }
 
 
   this.__defineGetter__('label', function() {
@@ -139,5 +123,5 @@ function ListCard(el) {
         $('.list-card-details').css({"opacity": 1.0, "background": "#fff"});
       });
   });
-  setTimeout(that.refresh);
+  that.refresh()
 }
