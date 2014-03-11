@@ -18,33 +18,28 @@ function showLabels() {
   });
 }
 
+function readCard($c) {
+  if ($c.target) {
+    if (!/list-card/.test($c.target.className))
+      return;
+    $c = $($c.target).filter('.list-card:not(.placeholder)');
+  }
+  $c.each(function() {
+    if (!this.listCard)
+      new ListCard(this);
+    else
+      this.listCard.refresh()
+  });
+}
+
 function List(el) {
   if (el.list)
     return;
   el.list = this;
-
   var $list = $(el);
   var busy = false;
-
-  function readCard($c) {
-    if ($c.target) {
-      if (!/list-card/.test($c.target.className))
-        return;
-      $c = $($c.target).filter('.list-card:not(.placeholder)');
-    }
-    $c.each(function() {
-      if (!this.listCard)
-        new ListCard(this);
-      else
-        this.listCard.refresh()
-    });
-  }
-
   $list.on('DOMNodeInserted', readCard);
-
-  setTimeout(function() {
-    readCard($list.find('.list-card'));
-  });
+  readCard($list.find('.list-card'));
 }
 
 function ListCard(el) {
@@ -99,7 +94,6 @@ function ListCard(el) {
       }
     }
     recursiveReplace();
-
     var list = $card.closest('.list');
     busy = false;
   }
@@ -123,5 +117,5 @@ function ListCard(el) {
         $('.list-card-details').css({"opacity": 1.0, "background": "#fff"});
       });
   });
-  that.refresh()
+  this.refresh()
 }
