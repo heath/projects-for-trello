@@ -1,10 +1,8 @@
 var tags = [ "foo", "bar", "baz" ];
 
-$(function() {
-  $('.js-toggle-label-filter, .js-select-member, .js-due-filter, .js-clear-all').live('mouseup', showLabels);
-  $('.js-input').live('keyup', showLabels);
-  showLabels();
-});
+$('.js-toggle-label-filter, .js-select-member, .js-due-filter, .js-clear-all').live('mouseup', showLabels);
+$('.js-input').live('keyup', showLabels);
+showLabels();
 
 document.body.addEventListener('DOMNodeInserted', function() {
   if (event.target.id == 'board' || $(event.target).hasClass('list'))
