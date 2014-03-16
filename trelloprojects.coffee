@@ -37,7 +37,6 @@ ListCard = (el) ->
   @refresh = ->
     recursiveReplace = ->
       tags.forEach (text) -> if text is label[1] then tag = text
-
       $("<div class=\"badge " + tag + "\" />").text(label[1]).prependTo $(el).find(".badges")
       $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0], ""))
       parsed = el._title.match(regexp)
@@ -49,11 +48,10 @@ ListCard = (el) ->
 
     return if busy
     busy = true
-
     $(el).find(".project").remove()
     $title = $(el).find("a.list-card-title")
-    return unless $title[0]
 
+    return unless $title[0]
     title = $title[0].childNodes[1].textContent
     if title then el._title = $title
 
