@@ -32,6 +32,4 @@ as a badge in the lower left corner of the card. Projects for Trello also suppor
 
 Credits
 -------
-Most, if not all credit goes to [Scrum for Trello](https://github.com/Q42/TrelloScrum) which was 
-was developed by [Marcel Duin](http://webglmarcel.q42.net/) and [Jasper Kaizer](https://twitter.com/jkaizer). 
-This project is a rework of their original extension to handle project labels.
+See project this was forked from for the previous work.
