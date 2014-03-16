@@ -22,9 +22,11 @@ readCard = ($c) ->
 
 List = (el) ->
   return if el.list
+
+  $list   = $(el)
+  busy    = false
   el.list = this
-  $list = $(el)
-  busy = false
+
   $list.on "DOMNodeInserted", readCard
   readCard $list.find(".list-card")
 
@@ -70,7 +72,7 @@ ListCard = (el) ->
     unless title is ptitle
       ptitle = title
       parsed = title.match(regexp)
-      label = if parsed then parsed else -1
+      label  = if parsed then parsed else -1
 
     recursiveReplace()
     busy = false
