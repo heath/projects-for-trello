@@ -2,7 +2,7 @@ tags = [ "foo", "bar", "baz" ]
 
 showLabels = ->
   $(".list").each ->
-    new List(this)  unless @list
+    new List(this) unless @list
 
 randomHexColor = ->
   "#" + Math.floor(Math.random() * 16777215).toString(16)
@@ -31,13 +31,11 @@ List = (el) ->
 ListCard = (el) ->
   return if el.listCard
 
-  regexp      = /\{([^{}]+)\}/
+  busy        = false
   label       = -1
   parsed      = undefined
-  that        = this
-  busy        = false
   ptitle      = ""
-  $card       = $(el)
+  regexp      = /\{([^{}]+)\}/
   tag         = undefined
 
   @refresh = ->
@@ -50,7 +48,7 @@ ListCard = (el) ->
           #   tag = label[1]
           #   genNewTag(tag)
 
-        $("<div class=\"badge " + tag + "\" />").text(label[1]).prependTo $card.find(".badges")
+        $("<div class=\"badge " + tag + "\" />").text(label[1]).prependTo $(el).find(".badges")
         $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0], ""))
         parsed = el._title.match(regexp)
         label = (if parsed then parsed else -1)
@@ -61,16 +59,18 @@ ListCard = (el) ->
 
     return if busy
     busy = true
-    $card.find(".project").remove()
-    $title = $card.find("a.list-card-title")
+
+    $(el).find(".project").remove()
+    $title = $(el).find("a.list-card-title")
     return unless $title[0]
+
     title = $title[0].childNodes[1].textContent
-    el._title = $title  if title
+    if title then el._title = $title
 
     unless title is ptitle
       ptitle = title
       parsed = title.match(regexp)
-      label = (if parsed then parsed else -1)
+      label = if parsed then parsed else -1
 
     recursiveReplace()
     busy = false
