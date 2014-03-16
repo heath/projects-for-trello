@@ -21,7 +21,6 @@ List = (el) ->
   busy    = false
   el.list = this
 
-  $list.on "DOMNodeInserted", readCard
   readCard $list.find(".list-card")
 
 ListCard = (el) ->
