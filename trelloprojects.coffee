@@ -30,15 +30,17 @@ List = (el) ->
 
 ListCard = (el) ->
   return if el.listCard
+
   el.listCard = this
-  regexp = /\{([^{}]+)\}/
-  label = -1
-  parsed = undefined
-  that = this
-  busy = false
-  ptitle = ""
-  $card = $(el)
-  tag = undefined
+  regexp      = /\{([^{}]+)\}/
+  label       = -1
+  parsed      = undefined
+  that        = this
+  busy        = false
+  ptitle      = ""
+  $card       = $(el)
+  tag         = undefined
+
   @refresh = ->
     recursiveReplace = ->
       unless label is -1
