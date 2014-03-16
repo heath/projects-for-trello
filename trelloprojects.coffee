@@ -36,19 +36,16 @@ ListCard = (el) ->
 
   @refresh = ->
     recursiveReplace = ->
+      tags.forEach (text) -> if text is label[1] then tag = text
+
+      $("<div class=\"badge " + tag + "\" />").text(label[1]).prependTo $(el).find(".badges")
+      $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0], ""))
+      parsed = el._title.match(regexp)
+      label = (if parsed then parsed else -1)
+
       unless label is -1
-        tags.forEach (text) ->
-          if text is label[1]
-            tag = text
-
-        $("<div class=\"badge " + tag + "\" />").text(label[1]).prependTo $(el).find(".badges")
-        $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0], ""))
-        parsed = el._title.match(regexp)
-        label = (if parsed then parsed else -1)
-
-        unless label is -1
-          el._title = $title
-          recursiveReplace()
+        el._title = $title
+        recursiveReplace()
 
     return if busy
     busy = true
