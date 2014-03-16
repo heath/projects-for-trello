@@ -31,7 +31,6 @@ List = (el) ->
 ListCard = (el) ->
   return if el.listCard
 
-  el.listCard = this
   regexp      = /\{([^{}]+)\}/
   label       = -1
   parsed      = undefined
