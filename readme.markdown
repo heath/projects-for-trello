@@ -8,7 +8,7 @@ adds functionality to the awesome trello.com for use in multiple project boards.
 Note
 ----
 This forked plugin will color tags based on the tag assigned. To use, change the
-tags list in the trelloprojects.js, and edit the corresponding css file. Make
+tags list in the trelloprojects.coffee, run `cake build`, and edit the corresponding css file. Make
 sure to reload the extension to see your changes take place.
 
 
