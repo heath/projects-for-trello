@@ -1,8 +1,10 @@
 tags = [ "foo", "bar", "baz" ]
 
+
 showLabels = ->
   $(".list").each ->
     new List(this) unless @list
+
 
 readCard = ($c) ->
   if $c.target
@@ -14,6 +16,7 @@ readCard = ($c) ->
     else
       @listCard.refresh()
 
+
 List = (el) ->
   return if el.list
 
@@ -22,6 +25,7 @@ List = (el) ->
   el.list = this
 
   readCard $list.find(".list-card")
+
 
 ListCard = (el) ->
   return if el.listCard
@@ -64,8 +68,10 @@ ListCard = (el) ->
 
   @refresh()
 
+
 $(".js-toggle-label-filter, .js-select-member, .js-due-filter, .js-clear-all").on "mouseup", showLabels
 $(".js-input").on "keyup", showLabels
+
 
 document.addEventListener "DOMNodeInserted", ->
   showLabels() if event.target.id is "board" or $(event.target).hasClass("list")
@@ -90,5 +96,6 @@ document.addEventListener "DOMNodeInserted", ->
       $(".list-card-details").css
         background : "#fff"
         opacity    : 1.0
+
 
 showLabels()
