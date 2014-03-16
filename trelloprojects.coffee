@@ -4,12 +4,6 @@ showLabels = ->
   $(".list").each ->
     new List(this) unless @list
 
-randomHexColor = ->
-  "#" + Math.floor(Math.random() * 16777215).toString(16)
-
-genNewTag = (tag) ->
-  $("." + tag).css "backround-color", randomHexColor()
-
 readCard = ($c) ->
   if $c.target
     return unless /list-card/.test($c.target.className)
@@ -46,9 +40,6 @@ ListCard = (el) ->
         tags.forEach (text) ->
           if text is label[1]
             tag = text
-          # else
-          #   tag = label[1]
-          #   genNewTag(tag)
 
         $("<div class=\"badge " + tag + "\" />").text(label[1]).prependTo $(el).find(".badges")
         $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0], ""))
