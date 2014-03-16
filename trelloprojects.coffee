@@ -72,7 +72,6 @@ ListCard = (el) ->
 
 $(".js-toggle-label-filter, .js-select-member, .js-due-filter, .js-clear-all").on "mouseup", showLabels
 $(".js-input").on "keyup", showLabels
-showLabels()
 
 document.addEventListener "DOMNodeInserted", ->
   showLabels() if event.target.id is "board" or $(event.target).hasClass("list")
@@ -97,3 +96,5 @@ document.addEventListener "DOMNodeInserted", ->
       $(".list-card-details").css
         background : "#fff"
         opacity    : 1.0
+
+showLabels()
