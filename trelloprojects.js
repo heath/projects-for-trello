@@ -1,13 +1,5 @@
 var tags = [ "foo", "bar", "baz" ];
 
-$('.js-toggle-label-filter, .js-select-member, .js-due-filter, .js-clear-all').live('mouseup', showLabels);
-$('.js-input').live('keyup', showLabels);
-showLabels();
-
-document.body.addEventListener('DOMNodeInserted', function() {
-  if (event.target.id == 'board' || $(event.target).hasClass('list'))
-    showLabels();
-});
 
 function showLabels() {
   $('.list').each(function() {
@@ -15,6 +7,22 @@ function showLabels() {
       new List(this);
   });
 }
+
+
+$('.js-toggle-label-filter, .js-select-member, .js-due-filter, .js-clear-all').on('mouseup', showLabels);
+$('.js-input').on('keyup', showLabels);
+showLabels();
+
+
+function randomHexColor() {
+  return '#'+Math.floor(Math.random()*16777215).toString(16);
+}
+
+
+function genNewTag(tag) {
+  $("."+tag).css("backround-color", randomHexColor())
+}
+
 
 function readCard($c) {
   if ($c.target) {
@@ -30,6 +38,7 @@ function readCard($c) {
   });
 }
 
+
 function List(el) {
   if (el.list)
     return;
@@ -39,6 +48,7 @@ function List(el) {
   $list.on('DOMNodeInserted', readCard);
   readCard($list.find('.list-card'));
 }
+
 
 function ListCard(el) {
   if (el.listCard)
@@ -80,8 +90,12 @@ function ListCard(el) {
       if (label != -1) {
         tags.forEach(function(text) {
           if (text === label[1]) tag = text;
+          // else {
+          //   tag = label[1];
+          //   genNewTag(tag);
+          //   }
         });
-        $('<div class="badge '+ tag + '" />').text(that.label[1]).prependTo($card.find('.badges'));
+        $('<div class="badge '+ tag + '" />').text(label[1]).prependTo($card.find('.badges'));
         $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0],''));
         parsed = el._title.match(regexp);
         label = parsed ? parsed : -1;
@@ -92,28 +106,25 @@ function ListCard(el) {
       }
     }
     recursiveReplace();
-    var list = $card.closest('.list');
     busy = false;
   }
-
-
-  this.__defineGetter__('label', function() {
-    return parsed ? label : '';
-  });
-
-  el.addEventListener('DOMNodeInserted', function(e) {
-    if (/card-short-id/.test(e.target.className) && !busy) that.refresh();
-    if ($('.badge').length > 0)
-      $('.badge').hover(function handlerIn() {
-        var allCards = $('.list-card-details');
-        allCards.css({"opacity": 0.2, "background": "rgba(0,0,0,0.5)"});
-        var visibleCards = allCards.filter(function(i, card) {
-          return $(card).find('.badge.' + event.target.innerText).length > 0;
-        });
-        visibleCards.css({"opacity": 1.0, "background": "#fff"});
-      }, function handlerOut() {
-        $('.list-card-details').css({"opacity": 1.0, "background": "#fff"});
-      });
-  });
   this.refresh()
 }
+
+
+document.addEventListener('DOMNodeInserted', function() {
+  if (event.target.id == 'board' || $(event.target).hasClass('list'))
+    showLabels();
+
+  if ($('.badge').length > 0)
+    $('.badge').hover(function handlerIn() {
+      var allCards = $('.list-card-details');
+      allCards.css({"opacity": 0.2, "background": "rgba(0,0,0,0.5)"});
+      var visibleCards = allCards.filter(function(i, card) {
+        return $(card).find('.badge.' + event.target.innerText).length > 0;
+      });
+      visibleCards.css({"opacity": 1.0, "background": "#fff"});
+    }, function handlerOut() {
+      $('.list-card-details').css({"opacity": 1.0, "background": "#fff"});
+    });
+});
