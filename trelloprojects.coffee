@@ -6,10 +6,6 @@ tags = [
     bgColor : "yellow"
     color   : "green"
     name    : "bar"
-  ,
-    bgColor : "orange"
-    color   : "black"
-    name    : "baz"
 ]
 
 
