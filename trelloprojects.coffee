@@ -10,19 +10,19 @@ tags = [
 
 
 showLabels = ->
-  $(".list").each -> readCard $(this).find(".list-card")
+  $(".list").each -> readCard $(this).find ".list-card"
 
 
 readCard = ($c) ->
   if $c.target
     return unless /list-card/.test($c.target.className)
-    $c = $($c.target).filter(".list-card:not(.placeholder)")
+    $c = $($c.target).filter ".list-card:not(.placeholder)"
   $c.each ->
     if not @listCard then new ListCard(this) else @listCard.refresh()
 
 
 randomHexColor = ->
-  "#" + Math.random().toString(16).slice(2, 8)
+  "#" + Math.random().toString(16).slice 2, 8
 
 
 tagExists = (label) ->
@@ -51,12 +51,12 @@ genCssSelector = (label) ->
 ListCard = (el) ->
   return if el.listCard
 
-  busy        = false
-  label       = -1
-  parsed      = undefined
-  ptitle      = ""
-  regexp      = /\{([^{}]+)\}/
-  tagName     = undefined
+  busy    = false
+  label   = -1
+  parsed  = undefined
+  ptitle  = ""
+  regexp  = /\{([^{}]+)\}/
+  tagName = undefined
 
   @refresh = ->
     return if busy
@@ -92,10 +92,6 @@ ListCard = (el) ->
   @refresh()
 
 
-$(".js-toggle-label-filter, .js-select-member, .js-due-filter, .js-clear-all").on "mouseup", showLabels
-$(".js-input").on "keyup", showLabels
-
-
 document.addEventListener "DOMNodeInserted", ->
   showLabels() if event.target.id is "board" or $(event.target).hasClass("list")
   if $(".badge").length > 0
@@ -119,6 +115,10 @@ document.addEventListener "DOMNodeInserted", ->
       $(".list-card-details").css
         background : "#fff"
         opacity    : 1.0
+
+
+$(".js-toggle-label-filter, .js-select-member, .js-due-filter, .js-clear-all").on "mouseup", showLabels
+$(".js-input").on "keyup", showLabels
 
 
 showLabels()
