@@ -35,9 +35,7 @@ tagExists = (label) ->
 
 genCssSelector = (label) ->
   if tagExists label
-    debugger
     for i,tag of tags
-      debugger
       if tag.name is label
         $(".#{label}").css
           backgroundColor : tags[i].bgColor
