@@ -29,41 +29,34 @@ tagExists = (label) ->
   tags.some (tag) -> tag.name is label
 
 
-genCssSelector = (label) ->
+style = (tag, label) ->
+  $(".#{label}").css
+    backgroundColor : tag.bgColor
+    color           : tag.color
+
+genStyle = (label) ->
   if tagExists label
-    for i,tag of tags
-      if tag.name is label
-        $(".#{label}").css
-          backgroundColor : tags[i].bgColor
-          color           : tags[i].color
+    tags.forEach (tag) -> if tag.name is label then style tag, label
   else
     tag =
       bgColor : randomHexColor()
       color   : randomHexColor()
       name    : label
     tags.push tag
+    style tag, label
 
-    $(".#{label}").css
-      backgroundColor : tag.bgColor
-      color           : tag.color
-      
 
 ListCard = (el) ->
   return if el.listCard
 
-  busy    = false
   label   = -1
-  ptitle  = ""
   regexp  = /\{([^{}]+)\}/
   tagName = undefined
 
   @refresh = ->
-    return if busy
-    busy = true
-
     recursiveReplace = ->
       $("<div class='badge project #{label[1]}' />").text(label[1]).prependTo $(el).find(".badges")
-      genCssSelector label[1]
+      genStyle label[1]
         
       $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0], ""))
       parsed = el._title.match(regexp)
@@ -80,13 +73,11 @@ ListCard = (el) ->
     title = $title[0].childNodes[1].textContent
     if title then el._title = $title
 
-    unless title is ptitle
-      ptitle = title
+    unless title is ""
       parsed = title.match(regexp)
       label  = if parsed then parsed else -1
 
     recursiveReplace()
-    busy = false
 
   @refresh()
 
