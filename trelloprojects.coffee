@@ -3,7 +3,7 @@ tags = [ "foo", "bar", "baz" ]
 
 showLabels = ->
   $(".list").each ->
-    new List(this) unless @list
+    readCard $(this).find(".list-card")
 
 
 readCard = ($c) ->
@@ -11,20 +11,7 @@ readCard = ($c) ->
     return unless /list-card/.test($c.target.className)
     $c = $($c.target).filter(".list-card:not(.placeholder)")
   $c.each ->
-    unless @listCard
-      new ListCard(this)
-    else
-      @listCard.refresh()
-
-
-List = (el) ->
-  return if el.list
-
-  $list   = $(el)
-  busy    = false
-  el.list = this
-
-  readCard $list.find(".list-card")
+    if not @listCard then new ListCard(this) else @listCard.refresh()
 
 
 ListCard = (el) ->
@@ -35,12 +22,13 @@ ListCard = (el) ->
   parsed      = undefined
   ptitle      = ""
   regexp      = /\{([^{}]+)\}/
-  tag         = undefined
+  tagName     = undefined
 
   @refresh = ->
     recursiveReplace = ->
-      tags.forEach (text) -> if text is label[1] then tag = text
-      $("<div class=\"badge " + tag + "\" />").text(label[1]).prependTo $(el).find(".badges")
+      tags.forEach (tag) ->
+        if tag is label[1] then tagName = tag
+      $("<div class=\"badge " + tagName + "\" />").text(label[1]).prependTo $(el).find(".badges")
       $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0], ""))
       parsed = el._title.match(regexp)
       label = (if parsed then parsed else -1)
