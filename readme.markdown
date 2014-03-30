@@ -8,8 +8,9 @@ adds functionality to the awesome trello.com for use in multiple project boards.
 Note
 ----
 This forked plugin will add color tags based on the tag assigned. To use, change the
-tags list in the trelloprojects.coffee, run `cake build`, and edit the corresponding css file. Make
-sure to reload the extension to see your changes take place.
+tags list in the trelloprojects.coffee, run `cake build`. Make sure to reload the
+extension to see your changes take place. You may also add arbitrary tags to and the
+plugin will generate random background color and text color attributes for you.
 
 
 Setup
