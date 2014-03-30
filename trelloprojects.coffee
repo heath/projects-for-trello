@@ -1,9 +1,20 @@
-tags = [ "foo", "bar", "baz" ]
+tags = [
+    bgColor : "blue"
+    color   : "yellow"
+    name    : "foo"
+  ,
+    bgColor : "yellow"
+    color   : "green"
+    name    : "bar"
+  ,
+    bgColor : "orange"
+    color   : "black"
+    name    : "baz"
+]
 
 
 showLabels = ->
-  $(".list").each ->
-    readCard $(this).find(".list-card")
+  $(".list").each -> readCard $(this).find(".list-card")
 
 
 readCard = ($c) ->
@@ -12,6 +23,37 @@ readCard = ($c) ->
     $c = $($c.target).filter(".list-card:not(.placeholder)")
   $c.each ->
     if not @listCard then new ListCard(this) else @listCard.refresh()
+
+
+randomHexColor = ->
+  "#" + Math.random().toString(16).slice(2, 8)
+
+
+tagExists = (label) ->
+  tags.some (tag) -> tag.name is label
+
+
+genCssSelector = (label) ->
+  debugger
+  if tagExists label
+    debugger
+    for i,tag of tags
+      debugger
+      if tag.name is label
+        $(".#{label}").css
+          backgroundColor : tags[i].bgColor
+          color           : tags[i].color
+  else
+    tag =
+      bgColor : randomHexColor()
+      color   : randomHexColor()
+      name    : label
+    tags.push tag
+
+    $(".#{label}").css
+      backgroundColor : tag.bgColor
+      color           : tag.color
+      
 
 
 ListCard = (el) ->
@@ -25,10 +67,13 @@ ListCard = (el) ->
   tagName     = undefined
 
   @refresh = ->
+    return if busy
+    busy = true
+
     recursiveReplace = ->
-      tags.forEach (tag) ->
-        if tag is label[1] then tagName = tag
-      $("<div class=\"badge " + tagName + "\" />").text(label[1]).prependTo $(el).find(".badges")
+      $("<div class='badge project #{label[1]}' />").text(label[1]).prependTo $(el).find(".badges")
+      genCssSelector label[1]
+        
       $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0], ""))
       parsed = el._title.match(regexp)
       label = (if parsed then parsed else -1)
@@ -37,8 +82,6 @@ ListCard = (el) ->
         el._title = $title
         recursiveReplace()
 
-    return if busy
-    busy = true
     $(el).find(".project").remove()
     $title = $(el).find("a.list-card-title")
 
