@@ -53,7 +53,6 @@ ListCard = (el) ->
 
   busy    = false
   label   = -1
-  parsed  = undefined
   ptitle  = ""
   regexp  = /\{([^{}]+)\}/
   tagName = undefined
