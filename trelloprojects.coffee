@@ -55,7 +55,6 @@ genCssSelector = (label) ->
       color           : tag.color
       
 
-
 ListCard = (el) ->
   return if el.listCard
 
