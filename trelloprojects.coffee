@@ -34,7 +34,6 @@ tagExists = (label) ->
 
 
 genCssSelector = (label) ->
-  debugger
   if tagExists label
     debugger
     for i,tag of tags
