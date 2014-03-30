@@ -59,10 +59,10 @@ ListCard = (el) ->
       genStyle label[1]
         
       $title[0].childNodes[1].textContent = el._title = $.trim(el._title[0].text.replace(label[0], ""))
-      parsed = el._title.match(regexp)
-      label = (if parsed then parsed else -1)
+      parsed = el._title.match regexp
+      label  = if parsed then parsed else -1
 
-      unless label is -1
+      if label isnt -1
         el._title = $title
         recursiveReplace()
 
@@ -70,12 +70,11 @@ ListCard = (el) ->
     $title = $(el).find("a.list-card-title")
 
     return unless $title[0]
-    title = $title[0].childNodes[1].textContent
-    if title then el._title = $title
 
-    unless title is ""
-      parsed = title.match(regexp)
-      label  = if parsed then parsed else -1
+    title     = $title[0].childNodes[1].textContent
+    el._title = $title
+    parsed    = title.match regexp
+    label     = if parsed then parsed else -1
 
     recursiveReplace()
 
